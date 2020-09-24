@@ -2,15 +2,17 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const morgan = require("morgan");
+const db = require("./models");
 
 const userRouter = require("./routes/user");
 const postRouter = require("./routes/post");
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // middlewares
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
@@ -37,8 +39,10 @@ app.get("/", (req, res) => {
 app.use("/user", userRouter);
 app.use("/post", postRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+db.sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
 });
 
 module.exports = app;
