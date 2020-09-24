@@ -3,11 +3,11 @@ const router = express.Router();
 
 const { usersController } = require("../controller");
 
-router.get("/userdata", usersController.info.get);
+router.get("/userdata", usersController.userdata.get);
 
 router.post("/signin", usersController.signin.post);
 
-router.post("/signup", usersController.signun.post);
+router.post("/signup", usersController.signup.post);
 
 router.post("signout", usersController.signout.post);
 
