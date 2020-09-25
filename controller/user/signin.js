@@ -14,8 +14,7 @@ module.exports = {
         if (result === null) {
           res.status(401).send("Wrong email or password");
         } else {
-          sess.userid = result.id; // session에 userid넣어줌
-          sess.userdata = result; // session에 userdata넣어줌 (둘중 한개만해도되는데)
+          sess.userId = result.id; // session에 userid넣어줌
           res.status(200).json({
             id: result.id,
             avartar_url: result.avartar_url,

@@ -2,7 +2,7 @@ module.exports = {
   post: (req, res) => {
     const sess = req.session;
     //console.log(sess.userid);
-    if (sess.userid) {
+    if (sess.userId) {
       req.session.destroy(err => {
         if (err) {
           res.status(500).end();
