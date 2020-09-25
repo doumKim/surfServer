@@ -6,16 +6,16 @@ module.exports = {
       const sess = req.session;
       const result = await User.findOne({
         where: {
-          id: sess.userid,
-          password: req.body.currentPassword,
+          id: sess.userId,
+          password: req.body.prevPassword,
         },
       });
       if (result) {
         await User.update(
-          { password: req.body.changePassword },
+          { password: req.body.nextPassword },
           {
             where: {
-              id: sess.userid,
+              id: sess.userId,
             },
           }
         );

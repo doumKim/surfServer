@@ -2,6 +2,14 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const morgan = require("morgan");
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: "ap-northeast-2",
+});
+
 const passport = require("passport");
 // const db = require("./models");
 const passportConfig = require("./passport");
