@@ -11,7 +11,6 @@ AWS.config.update({
 });
 
 const passport = require("passport");
-// const db = require("./models");
 const passportConfig = require("./passport");
 
 require("dotenv").config();
@@ -57,9 +56,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  //const test = req.query.hello(category) + req.query.test(hot, recent);
-  //res.send(test);
-  console.log(req.session);
   res.end("Hellow World.");
 });
 

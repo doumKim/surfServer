@@ -1,23 +1,21 @@
+const bcrypt = require("bcrypt");
 const { User } = require("../../models");
 
-module.exports = {
-  post: async (req, res) => {
-    const { email, password, username } = req.body;
-
-    try {
-      const exUser = await User.findOne({ where: { email } });
-      if (!exUser) {
-        await User.create({
-          email: email,
-          username: username,
-          password: password,
-        });
-        res.status(201).send("Successfully Signed Up");
-      } else {
-        res.status(409).send("already exists email or username");
-      }
-    } catch (err) {
-      console.error(err);
+module.exports = async (req, res) => {
+  const { email, username, password } = req.body;
+  try {
+    const existedUser = await User.findOne({ where: { email } });
+    if (existedUser) {
+      return res.status(409).send("already exists email or username.");
     }
-  },
+    const hash = await bcrypt.hash(password, 12);
+    await User.create({
+      email,
+      username,
+      password: hash,
+    });
+    return res.status(201).send("Successfully Signed Up");
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -1,29 +1,20 @@
-const { User } = require("../../models");
+const passport = require("passport");
 
-module.exports = {
-  post: (req, res) => {
-    const { email, password } = req.body;
-    const sess = req.session;
-    User.findOne({
-      where: {
-        email: email,
-        password: password,
-      },
-    })
-      .then(result => {
-        if (result === null) {
-          res.status(401).send("Wrong email or password");
-        } else {
-          sess.userId = result.id; // session에 userid넣어줌
-          res.status(200).json({
-            id: result.id,
-            avartar_url: result.avartar_url,
-          });
+module.exports = async (req, res, next) => {
+  passport.authenticate("local", (authError, user, info) => {
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    } else if (!user) {
+      return res.status(401).send(info.message);
+    } else {
+      return req.login(user, loginError => {
+        if (loginError) {
+          console.error(loginError);
+          return next(loginError);
         }
-        console.log(sess);
-      })
-      .catch(err => {
-        res.status(404).send(err);
+        return res.status(201).send("login success.");
       });
-  },
+    }
+  })(req, res, next);
 };
