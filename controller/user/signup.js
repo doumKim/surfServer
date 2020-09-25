@@ -5,14 +5,19 @@ module.exports = {
     const { email, password, username } = req.body;
 
     try {
-      await User.Create({
-        email: email,
-        username: username,
-        password: password,
-      });
-      res.status(201).send("Successfully Signed Up");
+      const exUser = await User.findOne({ where: { email } });
+      if (!exUser) {
+        await User.create({
+          email: email,
+          username: username,
+          password: password,
+        });
+        res.status(201).send("Successfully Signed Up");
+      } else {
+        res.status(409).send("already exists email or username");
+      }
     } catch (err) {
-      res.status(409).send("already exists email or username");
+      console.error(err);
     }
   },
 };

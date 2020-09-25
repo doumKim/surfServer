@@ -6,11 +6,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+    },
+    sns_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     avartar_url: {
       type: DataTypes.STRING,
@@ -23,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     exp: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+    provider: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   });
 
