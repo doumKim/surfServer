@@ -1,5 +1,3 @@
-const phase_post = require("../../models/phase_post");
-
 const { PhasePost } = require("../../models");
 module.exports = {
   get: (req, res) => {

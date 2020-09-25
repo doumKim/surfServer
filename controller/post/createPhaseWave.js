@@ -10,7 +10,7 @@ module.exports = {
         current_phase: current_phase,
         post_id: req.paramas.id,
         user_id: req.session.userId,
-      }).then(result => {
+      }).then(() => {
         res.status(201).send("Successfuly created");
       });
     } catch (err) {

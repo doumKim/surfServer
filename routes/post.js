@@ -22,6 +22,6 @@ router.get("/joinWaveList", postController.joinWaveList.get);
 
 router.get("/likeWave", postController.likeWave.get);
 
-route.post("/thumnail", postController.thumbnail.post);
+router.post("/thumnail", postController.thumbnail.post);
 
 module.exports = router;

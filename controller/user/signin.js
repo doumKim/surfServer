@@ -20,6 +20,7 @@ module.exports = {
             avartar_url: result.avartar_url,
           });
         }
+        console.log(sess);
       })
       .catch(err => {
         res.status(404).send(err);

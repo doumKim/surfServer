@@ -47,7 +47,7 @@ router.post("/changeimage", upload.single("img"), (req, res) => {
           id: req.session.userid,
         },
       }
-    ).then(response => {
+    ).then(() => {
       res.status(200).send(payLoad);
     });
   } catch (err) {

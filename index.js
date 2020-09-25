@@ -2,10 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const morgan = require("morgan");
-const db = require("./models");
 const AWS = require("aws-sdk");
-
-require("dotenv").config();
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -13,12 +10,27 @@ AWS.config.update({
   region: "ap-northeast-2",
 });
 
+const passport = require("passport");
+// const db = require("./models");
+const passportConfig = require("./passport");
+
+require("dotenv").config();
+
 const userRouter = require("./routes/user");
-//const postRouter = require("./routes/post");
+const authRouter = require("./routes/auth");
+const { sequelize } = require("./models");
+// const postRouter = require("./routes/post");
 
 const app = express();
-
+passportConfig(passport);
 const PORT = process.env.PORT || 3000;
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("DB 연결 성공");
+  })
+  .catch(console.error);
 
 // middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -32,11 +44,14 @@ app.use(
 );
 app.use(
   session({
-    secret: "surfsurf",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
@@ -44,16 +59,16 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
   //const test = req.query.hello(category) + req.query.test(hot, recent);
   //res.send(test);
-  res.end("Success");
+  console.log(req.session);
+  res.end("Hellow World.");
 });
 
 app.use("/user", userRouter);
+app.use("/auth", authRouter);
 //app.use("/post", postRouter);
 
-db.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
-  });
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`);
 });
 
 module.exports = app;

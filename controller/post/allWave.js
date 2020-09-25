@@ -1,5 +1,5 @@
 //catgory가 전체일때, 전체가 아닐때로 나눠서 작성
-const { Post } = require("../../models");
+/*const { Post } = require("../../models");
 
 module.exports = {
   get: (req, res) => {
@@ -9,3 +9,4 @@ module.exports = {
     Post.findAll({});
   },
 };
+*/
