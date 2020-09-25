@@ -1,16 +1,15 @@
-//const { users } = require("../../models");
+const { User } = require("../../models");
 
-/*module.exports = {
+module.exports = {
   post: (req, res) => {
     const { email, password } = req.body;
     const sess = req.session;
-    users
-      .findOne({
-        where: {
-          email: email,
-          password: password,
-        },
-      })
+    User.findOne({
+      where: {
+        email: email,
+        password: password,
+      },
+    })
       .then(result => {
         if (result === null) {
           res.status(401).send("Wrong email or password");
@@ -19,7 +18,7 @@
           sess.userdata = result; // session에 userdata넣어줌 (둘중 한개만해도되는데)
           res.status(200).json({
             id: result.id,
-            avatar_url: result.avatar_url,
+            avartar_url: result.avartar_url,
           });
         }
       })
@@ -27,4 +26,4 @@
         res.status(404).send(err);
       });
   },
-};*/
+};

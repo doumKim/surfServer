@@ -1,22 +1,18 @@
-//const { users } = require("../../models");
+const { User } = require("../../models");
 
-/*module.exports = {
-  post: (req, res) => {
+module.exports = {
+  post: async (req, res) => {
     const { email, password, username } = req.body;
 
     try {
-      user.findOrCreate({
-        where: {
-          email: email,
-          username: username,
-        },
-        defaults: {
-          password: password,
-        },
+      await User.Create({
+        email: email,
+        username: username,
+        password: password,
       });
       res.status(201).send("Successfully Signed Up");
     } catch (err) {
       res.status(409).send("already exists email or username");
     }
   },
-};*/
+};
