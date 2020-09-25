@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      current_phase: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     { underscored: true }
   );
