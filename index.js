@@ -33,11 +33,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
+  //const test = req.query.hello(category) + req.query.test(hot, recent);
+  //res.send(test);
   res.end("Success");
 });
 
 app.use("/user", userRouter);
-app.use("/post", postRouter);
+//app.use("/post", postRouter);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {

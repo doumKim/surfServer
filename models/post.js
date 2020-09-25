@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Post.belongsTo(models.User, {
       foreignKey: "current_join_user",
-      allowNull: false,
+      allowNull: true,
       onDelete: "cascade",
     });
     Post.belongsToMany(models.User, {
