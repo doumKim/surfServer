@@ -20,7 +20,19 @@ router.get(
     failureRedirect: "/",
   }),
   (req, res) => {
-    res.redirect("/");
+    res.redirect(301, "/");
+  }
+);
+
+router.get("/naver", passport.authenticate("naver"));
+
+router.get(
+  "/naver/callback",
+  passport.authenticate("naver", {
+    failureRedirect: "/",
+  }),
+  (req, res) => {
+    res.redirect(301, "/");
   }
 );
 
