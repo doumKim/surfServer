@@ -17,10 +17,10 @@ router.get("/kakao", passport.authenticate("kakao"));
 router.get(
   "/kakao/callback",
   passport.authenticate("kakao", {
-    failureRedirect: "/",
+    failureRedirect: "http://surftest.tk",
   }),
   (req, res) => {
-    res.redirect(301, "/");
+    res.redirect(301, "http://surftest.tk");
   }
 );
 
@@ -29,10 +29,22 @@ router.get("/naver", passport.authenticate("naver"));
 router.get(
   "/naver/callback",
   passport.authenticate("naver", {
-    failureRedirect: "/",
+    failureRedirect: "http://surftest.tk",
   }),
   (req, res) => {
-    res.redirect(301, "/");
+    res.redirect(301, "http://surftest.tk");
+  }
+);
+
+router.get("/google", passport.authenticate("google"));
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "http://surftest.tk",
+  }),
+  (req, res) => {
+    res.redirect(301, "http://surftest.tk");
   }
 );
 

@@ -26,12 +26,6 @@ const upload = multer({
 
 router.get("/userdata", userController.userData.get);
 
-// router.post("/signin", userController.signin.post);
-
-// router.post("/signup", userController.signup.post);
-
-// router.post("/signout", userController.signout.post);
-
 router.post("/password", userController.password.post);
 
 router.post("/changeimage", upload.single("img"), (req, res) => {
