@@ -44,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://surftest.tk"],
+    origin: ["http://surftest.tk", "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true,
   })

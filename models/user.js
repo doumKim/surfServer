@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     sns_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     password: {

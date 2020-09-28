@@ -1,4 +1,4 @@
-const GoogleStrategy = require("passport-google").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { User } = require("../models");
 
 require("dotenv").config();
@@ -19,8 +19,13 @@ module.exports = passport => {
           if (existedUser) {
             done(null, existedUser);
           } else {
+            const { _json, displayName, id } = profile;
             const newUser = await User.create({
-              //profile 확인하고 내용 넣어주기
+              email: _json && _json.email,
+              username: displayName,
+              sns_id: `${id}`,
+              provider: "google",
+              avartar_url: _json && _json.picture,
             });
             done(null, newUser);
           }

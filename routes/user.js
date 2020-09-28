@@ -17,12 +17,13 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
-      console.log(file);
       cb(null, file.originalname);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
 });
+
+router.get("/signout", userController.signOut);
 
 router.get("/userdata", userController.userData.get);
 
@@ -38,14 +39,14 @@ router.post("/changeimage", upload.single("img"), (req, res) => {
       },
       {
         where: {
-          id: req.session.userid,
+          id: req.session.passport.user,
         },
       }
     ).then(() => {
       res.status(200).send(payLoad);
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send("서버 에러");
   }
 });

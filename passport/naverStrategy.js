@@ -12,7 +12,6 @@ module.exports = passport => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile);
           const existedUser = await User.findOne({
             where: { sns_id: profile.id, provider: "naver" },
           });
@@ -23,7 +22,7 @@ module.exports = passport => {
             const newUser = await User.create({
               email: _json && _json.email,
               username: displayName,
-              sns_id: id,
+              sns_id: `${id}`,
               provider: "naver",
               avartar_url: _json && _json.profile_image,
             });
