@@ -1,10 +1,11 @@
-const {} = require("../../models");
-const { Post, user_post } = require("../post");
+const { Post, user_post, PhasePost } = require("../post");
 
 module.exports = {
   get: async (req, res) => {
     try {
       //유저의 좋아요글목록수, 파도이어가기 수, 파도 일으키기 수
+      const sort = req.query.sort;
+
       let result = [];
       let result2 = [];
 
