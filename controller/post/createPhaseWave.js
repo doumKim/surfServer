@@ -2,14 +2,17 @@ const { PhasePost } = require("../../models");
 
 module.exports = {
   post: (req, res) => {
-    const { text, sub_title, current_phase } = req.body;
+    const { text, sub_title } = req.body;
+    const currentPhase = req.query.currentPhase;
+    console.log(req.params.id);
+    console.log(currentPhase);
     try {
       PhasePost.create({
         text: text,
         sub_title: sub_title,
-        current_phase: current_phase,
-        post_id: req.paramas.id,
-        user_id: req.session.userId,
+        current_phase: currentPhase + 1,
+        post_id: req.params.id,
+        user_id: req.session.passport.user,
       }).then(() => {
         res.status(201).send("Successfuly created");
       });

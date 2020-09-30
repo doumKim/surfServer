@@ -4,7 +4,7 @@ module.exports = {
     try {
       PhasePost.findOne({
         where: {
-          post_id: req.params.postId,
+          post_id: req.params.id,
           current_phase: req.query.phase,
         },
       }).then(result => {
