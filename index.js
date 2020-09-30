@@ -33,22 +33,30 @@ sequelize
 
 // middlewares
 app.use(
+  cors({
+    origin: true,
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
+    proxy: true,
+    secureProxy: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    },
   })
 );
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://surftest.tk", "http://localhost:3000"],
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
 
 app.use(passport.initialize());
 app.use(passport.session());
