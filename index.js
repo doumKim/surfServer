@@ -19,7 +19,7 @@ AWS.config.update({
 
 const app = express();
 passportConfig(passport);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 sequelize
   .sync({ force: false })
@@ -29,27 +29,35 @@ sequelize
   .catch(console.error);
 
 // middlewares
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: true,
     methods: ["GET", "POST"],
     credentials: true,
   })
 );
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
+    proxy: true,
+    secureProxy: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    },
   })
 );
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
@@ -61,7 +69,7 @@ app.use("/auth", authRouter);
 app.use("/post", postRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Port number is ${PORT}.`);
 });
 
 module.exports = app;
