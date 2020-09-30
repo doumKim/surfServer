@@ -1,14 +1,23 @@
-const { Post } = require("../../models");
+const { Post, sequelize } = require("../../models");
 module.exports = {
-  get: (req, res) => {
+  get: async (req, res) => {
     try {
-      Post.findOne({
+      let post = await Post.findOne({
         where: {
-          id: req.params.postId,
+          id: req.params.id,
         },
-      }).then(result => {
-        res.status(200).json(result);
       });
+      await Post.update(
+        {
+          visits: sequelize.literal("visits + 1"),
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      res.status(200).json(post);
     } catch (err) {
       res.status(400).send("Invalid Access to post data");
     }

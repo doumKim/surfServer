@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       sub_title: {
         type: DataTypes.STRING,
         allowNull: false,
+        defalteValue: "",
       },
       current_phase: {
         type: DataTypes.INTEGER,

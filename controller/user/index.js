@@ -2,6 +2,7 @@ module.exports = {
   signIn: require("./signin"),
   signUp: require("./signup"),
   signOut: require("./signout"),
-  userData: require("./userdata"),
+  userInfo: require("./userinfo"),
   password: require("./password"),
+  countPosts: require("./countPosts"),
 };

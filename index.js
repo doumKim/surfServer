@@ -2,23 +2,20 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const morgan = require("morgan");
+const userRouter = require("./routes/user");
+const authRouter = require("./routes/auth");
+const { sequelize } = require("./models");
+const postRouter = require("./routes/post");
 const AWS = require("aws-sdk");
+const passport = require("passport");
+const passportConfig = require("./passport");
+require("dotenv").config();
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: "ap-northeast-2",
 });
-
-const passport = require("passport");
-const passportConfig = require("./passport");
-
-require("dotenv").config();
-
-const userRouter = require("./routes/user");
-const authRouter = require("./routes/auth");
-const { sequelize } = require("./models");
-// const postRouter = require("./routes/post");
 
 const app = express();
 passportConfig(passport);
@@ -69,7 +66,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
-//app.use("/post", postRouter);
+app.use("/post", postRouter);
 
 app.listen(PORT, () => {
   console.log(`Port number is ${PORT}.`);
