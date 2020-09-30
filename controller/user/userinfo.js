@@ -2,10 +2,10 @@ const { User } = require("../../models");
 module.exports = {
   get: (req, res) => {
     const sess = req.session;
-    if (sess.userId) {
+    if (sess.passport.user) {
       User.findOne({
         where: {
-          id: sess.userId,
+          id: sess.passport.user,
         },
       }).then(result => {
         if (result) {

@@ -6,7 +6,7 @@ module.exports = {
       const sess = req.session;
       const result = await User.findOne({
         where: {
-          id: sess.userId,
+          id: sess.passport.user,
           password: req.body.prevPassword,
         },
       });
@@ -15,7 +15,7 @@ module.exports = {
           { password: req.body.nextPassword },
           {
             where: {
-              id: sess.userId,
+              id: sess.passport.user,
             },
           }
         );

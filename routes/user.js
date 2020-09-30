@@ -13,7 +13,7 @@ let s3 = new AWS.S3();
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "useravartarimage", // 버킷 이름
+    bucket: "surfapp.tk/userAvartarImage", // 버킷 이름
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
@@ -21,22 +21,17 @@ const upload = multer({
       cb(null, file.originalname);
     },
   }),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
+  //limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
 });
 
-router.get("/userdata", userController.userData.get);
-
-// router.post("/signin", userController.signin.post);
-
-// router.post("/signup", userController.signup.post);
-
-// router.post("/signout", userController.signout.post);
+router.get("/userinfo", userController.userInfo.get);
 
 router.post("/password", userController.password.post);
 
+router.get("/countposts", userController.countPosts.get);
+
 router.post("/changeimage", upload.single("img"), (req, res) => {
   try {
-    //console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음
     let payLoad = { url: req.file.location };
     User.update(
       {
@@ -44,7 +39,7 @@ router.post("/changeimage", upload.single("img"), (req, res) => {
       },
       {
         where: {
-          id: req.session.userid,
+          id: req.session.passport.user,
         },
       }
     ).then(() => {
