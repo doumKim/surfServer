@@ -7,7 +7,7 @@ module.exports = {
       let result = [];
 
       let likeList = await user_post.findAll({
-        order: `${sort} desc`,
+        order: [[sort, "DESC"]],
         where: {
           user_id: req.session.passport.user,
         },

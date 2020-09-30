@@ -11,7 +11,7 @@ module.exports = {
         let result = await Post.findAll({
           offset: 0,
           limit: count,
-          order: "created_at desc",
+          order: [[sort, "DESC"]],
           where: {
             create_user: req.session.passport.user,
           },
@@ -21,7 +21,7 @@ module.exports = {
       } else {
         let result = await Post.findAll({
           offset: 0,
-          order: `${sort} desc`,
+          order: [[sort, "DESC"]],
           where: {
             create_user: req.session.passport.user,
           },

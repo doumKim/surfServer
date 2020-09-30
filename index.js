@@ -42,8 +42,8 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    proxy: true,
-    secureProxy: true,
+    //proxy: true,
+    //secureProxy: true,
     cookie: {
       httpOnly: true,
       sameSite: "none",
@@ -51,6 +51,8 @@ app.use(
     },
   })
 );
+
+app.set("trust proxy", true);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

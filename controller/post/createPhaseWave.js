@@ -4,8 +4,7 @@ module.exports = {
   post: (req, res) => {
     const { text, sub_title } = req.body;
     const currentPhase = req.query.currentPhase;
-    console.log(req.params.id);
-    console.log(currentPhase);
+    console.log(req.session);
     try {
       PhasePost.create({
         text: text,

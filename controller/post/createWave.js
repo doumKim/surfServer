@@ -1,6 +1,7 @@
 const { Post, PhasePost } = require("../../models");
 module.exports = {
   post: async (req, res) => {
+    console.log(req.session);
     const {
       categories,
       title,

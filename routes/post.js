@@ -28,10 +28,7 @@ router.get("/allWave", postController.allWave.get);
 
 router.post("/:id/clickLike", postController.clickLike.post);
 
-router.post(
-  "/createPhaseWave/:id?currentPhase=query",
-  postController.createPhaseWave.post
-);
+router.post("/createPhaseWave/:id", postController.createPhaseWave.post);
 
 router.post("/createWave", postController.createWave.post);
 
@@ -47,7 +44,7 @@ router.get(
   postController.myWaveList.get
 );
 
-router.get("/:id/phaseWave?phase=query", postController.phaseWave.get);
+router.get("/:id/phaseWave", postController.phaseWave.get);
 
 router.post("/thumnail", upload.single("img"), (req, res) => {
   let payLoad = { url: req.file.location };

@@ -12,7 +12,7 @@ module.exports = {
         let list = await PhasePost.findAll({
           offset: 0,
           limit: count,
-          order: "created_at desc",
+          order: [[sort, "DESC"]],
           where: {
             user_id: req.session.passport.user,
           },
@@ -31,7 +31,7 @@ module.exports = {
         // 전체 내가참여한글목록 받아옴
         let result = [];
         let list = await PhasePost.findAll({
-          order: `${sort} desc`,
+          order: [[sort, "DESC"]],
           where: {
             user_id: req.session.passport.user,
           },
