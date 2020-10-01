@@ -12,7 +12,7 @@ module.exports = {
     } = req.body;
 
     try {
-      let post = await Post.create({
+      const post = await Post.create({
         title_image: title_image,
         categories: categories,
         title: title,
@@ -20,8 +20,6 @@ module.exports = {
         synopsis: synopsis,
         create_user: req.session.passport.user,
       });
-
-      console.log(post);
 
       await PhasePost.create({
         text: text,

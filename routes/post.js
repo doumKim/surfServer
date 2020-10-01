@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
-var AWS = require("aws-sdk");
-var multer = require("multer");
-var multerS3 = require("multer-s3");
+const { isLoggedin } = require("./middlewares/auth");
+const path = require("path");
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 require("dotenv").config();
 
 const { postController } = require("../controller");
 
-let s3 = new AWS.S3();
+const s3 = new AWS.S3();
 
 const upload = multer({
   storage: multerS3({
@@ -17,8 +19,8 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
-      console.log(file);
-      cb(null, file.originalname);
+      const extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension); //userid.postid.파일이름
     },
   }),
   //limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
@@ -26,31 +28,28 @@ const upload = multer({
 
 router.get("/allWave", postController.allWave.get);
 
-router.post("/:id/clickLike", postController.clickLike.post);
+router.post("/like/:id", isLoggedin, postController.like.post);
 
 router.post(
-  "/createPhaseWave/:id?currentPhase=query",
+  "/createPhaseWave/:id",
+  isLoggedin,
   postController.createPhaseWave.post
 );
 
-router.post("/createWave", postController.createWave.post);
+router.post("/createWave", isLoggedin, postController.createWave.post);
 
-router.get(
-  "/joinWaveList?count=query$sort=query2",
-  postController.joinWaveList.get
-);
+router.get("/joinWaveList", isLoggedin, postController.joinWaveList.get);
 
-router.get("/likeWave?sort=query", postController.likeWave.get);
+router.get("/likeWave", isLoggedin, postController.likeWave.get);
 
-router.get(
-  "/myWaveList?count=query&sort=query2",
-  postController.myWaveList.get
-);
+router.get("/myWaveList", isLoggedin, postController.myWaveList.get); //1
 
-router.get("/:id/phaseWave?phase=query", postController.phaseWave.get);
+router.get("/phaseWave/:id", postController.phaseWave.get); //?phase=query
 
-router.post("/thumnail", upload.single("img"), (req, res) => {
-  let payLoad = { url: req.file.location };
+router.get("/wave/:id", postController.wave.get);
+
+router.post("/thumnail", isLoggedin, upload.single("img"), (req, res) => {
+  const payLoad = { url: req.file.location };
   Post.update(
     {
       title_image: payLoad,
@@ -61,10 +60,8 @@ router.post("/thumnail", upload.single("img"), (req, res) => {
       },
     }
   ).then(() => {
-    res.status(200).send("Successfuly changed titleImage");
+    res.status(200).send(payLoad);
   });
 });
-
-router.get("/:id/wave", postController.wave.get);
 
 module.exports = router;

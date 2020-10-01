@@ -15,9 +15,8 @@ module.exports = {
           },
         },
         order: [[sort, "DESC"]],
-      }).then(result => {
-        console.log(result);
-        res.status(200).send(result);
+      }).then(allWave => {
+        res.status(200).send(allWave);
       });
     } catch (err) {
       res.status(500).send("Internal Server Error");

@@ -7,6 +7,5 @@ module.exports = {
   joinWaveList: require("./joinWaveList"),
   myWaveList: require("./myWaveList"),
   likeWave: require("./likeWave"),
-  clickLike: require("./clickLike"),
-  //thumbnail: require("./thumbnail"),
+  like: require("./like"),
 };
