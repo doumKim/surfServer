@@ -28,6 +28,7 @@ sequelize
   })
   .catch(console.error);
 
+app.set("trust proxy", true);
 // middlewares
 app.use(
   cors({
@@ -40,19 +41,15 @@ app.use(
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    //proxy: true,
-    //secureProxy: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      //sameSite: "none",
+      //secure: true,
     },
   })
 );
-
-app.set("trust proxy", true);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

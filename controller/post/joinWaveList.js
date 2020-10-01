@@ -5,49 +5,27 @@ module.exports = {
     try {
       const count = req.query.count;
       const sort = req.query.sort;
+      //메인페이지에서 3개정도 받아옴
+      const list = await PhasePost.findAll({
+        offset: 0,
+        limit: Number(count) || 100,
+        order: [[sort, "ASC"]],
+        where: {
+          user_id: req.session.passport.user,
+        },
+      });
 
-      if (count) {
-        //메인페이지에서 3개정도 받아옴
-        let result = [];
-        let list = await PhasePost.findAll({
-          offset: 0,
-          limit: count,
-          order: [[sort, "DESC"]],
+      const joinWaveList = list.filter(async joinWave => {
+        const posts = await Post.findOne({
           where: {
-            user_id: req.session.passport.user,
+            id: joinWave.dataValues.post_id,
           },
         });
-
-        await list.forEach(element => {
-          let post = Post.findOne({
-            where: {
-              id: element.post_id,
-            },
-          });
-          result.push(post);
-        });
-        res.status(200).json(result);
-      } else {
-        // 전체 내가참여한글목록 받아옴
-        let result = [];
-        let list = await PhasePost.findAll({
-          order: [[sort, "DESC"]],
-          where: {
-            user_id: req.session.passport.user,
-          },
-        });
-
-        await list.forEach(element => {
-          let post = Post.findOne({
-            where: {
-              id: element.post_id,
-            },
-          });
-          result.push(post);
-        });
-        res.status(200).json(result);
-      }
+        return posts;
+      });
+      res.status(200).json(joinWaveList);
     } catch (err) {
+      console.error(err);
       res.status(401).send("Bad Request");
     }
   },

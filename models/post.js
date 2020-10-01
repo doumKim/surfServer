@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       title_image: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       current_phase: {
         type: DataTypes.INTEGER,

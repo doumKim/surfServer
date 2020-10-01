@@ -2,8 +2,19 @@ const { User } = require("../../models");
 module.exports = {
   get: (req, res) => {
     const sess = req.session;
+    const attributes = [
+      "id",
+      "username",
+      "email",
+      "sns_id",
+      "avartar_url",
+      "level",
+      "exp",
+      "provider",
+    ];
     if (sess.passport.user) {
       User.findOne({
+        attributes: attributes,
         where: {
           id: sess.passport.user,
         },

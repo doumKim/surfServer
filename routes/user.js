@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
+const { isLoggedin } = require("./middlewares/auth");
 const { User } = require("../models");
-var AWS = require("aws-sdk");
-var multer = require("multer");
-var multerS3 = require("multer-s3");
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 require("dotenv").config();
 
 const { userController } = require("../controller");
 
-let s3 = new AWS.S3();
+const s3 = new AWS.S3();
 
 const upload = multer({
   storage: multerS3({
@@ -17,24 +19,24 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
-      cb(null, file.originalname);
+      const extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension); // userid.파일이름
     },
   }),
-  //limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
 });
 
-router.get("/userinfo", userController.userInfo.get);
+router.get("/userInfo", isLoggedin, userController.userInfo.get);
 
-router.post("/password", userController.password.post);
+router.post("/password", isLoggedin, userController.password.post);
 
-router.get("/countposts", userController.countPosts.get);
+router.get("/countPosts", isLoggedin, userController.countPosts.get);
 
-router.post("/changeimage", upload.single("img"), (req, res) => {
+router.post("/changeImage", isLoggedin, upload.single("img"), (req, res) => {
   try {
-    let payLoad = { url: req.file.location };
+    const payLoad = { url: req.file.location };
     User.update(
       {
-        avartar_url: payLoad,
+        avartar_url: payLoad.url,
       },
       {
         where: {

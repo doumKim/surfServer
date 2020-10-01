@@ -1,17 +1,18 @@
 const { user_post, sequelize, User, Post } = require("../../models");
 
 module.exports = {
+  //가능하면 include 사용하면 기능상으로 좋다.
   post: async (req, res) => {
     const sess = req.session;
     const postId = req.params.id;
     try {
-      let post = await Post.findOne({
+      const post = await Post.findOne({
         where: {
           id: postId,
         },
       });
 
-      let user = await User.findOne({
+      const user = await User.findOne({
         where: {
           id: req.session.passport.user,
         },
@@ -20,7 +21,7 @@ module.exports = {
       //post의 like 1증가
       await Post.update(
         {
-          like: sequelize.literal("like + 1"),
+          like: post.like + 1,
         },
         {
           where: {
@@ -62,6 +63,7 @@ module.exports = {
 
       res.status(200).send("update success");
     } catch (err) {
+      console.error(err);
       res.status(400).send("bad request");
     }
   },

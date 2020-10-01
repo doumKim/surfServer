@@ -1,63 +1,37 @@
-const { Post, user_post, PhasePost } = require("../post");
+const { Post, user_post, PhasePost } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
     try {
-      //유저의 좋아요글목록수, 파도이어가기 수, 파도 일으키기 수
-      const sort = req.query.sort;
+      //유저의 좋아요글목록수, 파도이어가기 수, 파도 일으키기
 
-      let result = [];
-      let result2 = [];
-
-      let resultCreate = await Post.findAndCountAll({
+      const countCreateWave = await Post.count({
         where: {
           create_user: req.session.passport.user,
         },
       });
-      let resultPhase = await PhasePost.findAll({
+
+      const countJoinWave = await PhasePost.count({
         where: {
           user_id: req.session.passport.user,
         },
       });
 
-      await resultPhase.forEach(element => {
-        let post = Post.findOne({
-          where: {
-            id: element.post_id,
-          },
-        });
-        result.push(post);
-      });
-
-      let resultLike = await user_post.findAll({
-        order: `${sort} desc`,
+      const countLikeWave = await user_post.count({
         where: {
           user_id: req.session.passport.user,
         },
       });
 
-      await resultLike.forEach(element => {
-        let post = Post.findOne({
-          where: {
-            id: element.post_id,
-          },
-        });
-
-        result2.push(post);
-      });
-
-      const countCreateWave = resultCreate.count;
-      const countJoinWave = result.length;
-      const countLikeWave = result2.length;
-
-      let obj = {
-        countCreateWave: countCreateWave,
-        countJoinWave: countJoinWave,
-        countLikeWave: countLikeWave,
+      const countPosts = {
+        countCreateWave,
+        countJoinWave,
+        countLikeWave,
       };
 
-      res.status(200).json(obj);
+      res.status(200).json(countPosts);
     } catch (err) {
+      console.error(err);
       res.status(500).send("Internal Server Error");
     }
   },

@@ -4,8 +4,8 @@ module.exports = {
     try {
       PhasePost.findOne({
         where: {
-          post_id: req.params.id,
-          current_phase: req.query.phase,
+          post_id: req.params.id, //게시물 id
+          current_phase: req.query.phase, //현재회차
         },
       }).then(result => {
         res.status(200).json(result);

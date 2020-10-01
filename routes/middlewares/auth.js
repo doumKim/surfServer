@@ -1,5 +1,5 @@
 module.exports = {
-  isLogggein: (req, res, next) => {
+  isLoggedin: (req, res, next) => {
     if (req.isAuthenticated()) {
       next();
     } else {
@@ -11,7 +11,7 @@ module.exports = {
     if (!req.isAuthenticated()) {
       next();
     } else {
-      res.redirect("/");
+      res.redirect(301, "/");
     }
   },
 };
