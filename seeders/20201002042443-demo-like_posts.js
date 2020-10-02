@@ -6,8 +6,10 @@ module.exports = {
       {
         user_id: 1,
         post_id: 3,
-        created_at: "2020-10-01 02:37:09",
-        updated_at: "2020-10-01 02:37:09",
+      },
+      {
+        user_id: 2,
+        post_id: 3,
       },
     ]);
   },
