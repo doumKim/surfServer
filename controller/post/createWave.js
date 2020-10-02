@@ -13,17 +13,17 @@ module.exports = {
 
     try {
       const post = await Post.create({
-        title_image: title_image,
-        categories: categories,
-        title: title,
+        title_image,
+        categories,
+        title,
         max_Phase: maxPhase,
-        synopsis: synopsis,
+        synopsis,
         create_user: req.session.passport.user,
       });
 
       await PhasePost.create({
-        text: text,
-        sub_title: sub_title,
+        text,
+        sub_title,
         current_phase: 1,
         post_id: post.id,
         user_id: req.session.passport.user,

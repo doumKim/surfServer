@@ -1,9 +1,9 @@
-const { user_post, Post } = require("../../models");
+const { LikePost, Post } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
     try {
-      const likePost = await user_post.findAll({
+      const likePosts = await LikePost.findAll({
         order: [["created_at", "DESC"]],
         where: {
           user_id: req.session.passport.user,
@@ -23,7 +23,6 @@ module.exports = {
       );
       res.status(200).json(likeWaveList);
     } catch (err) {
-      console.error(err);
       res.status(401).send("Bad Request");
     }
   },

@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.belongsToMany(models.Post, {
-      through: "user_post",
+      through: "like_posts",
       foreignKey: "user_id",
       onDelete: "cascade",
     });

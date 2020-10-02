@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async queryInterface => {
-    return queryInterface.bulkInsert("user_posts", [
+    return queryInterface.bulkInsert("like_posts", [
       {
         user_id: 1,
         post_id: 3,
