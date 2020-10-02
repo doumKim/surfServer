@@ -8,4 +8,6 @@ module.exports = {
   myWaveList: require("./myWaveList"),
   likeWave: require("./likeWave"),
   like: require("./like"),
+  createCurrentJoinUser: require("./createCurrentJoinUser"),
+  removeCurrentJoinUser: require("./removeCurrentJoinUser"),
 };

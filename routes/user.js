@@ -31,7 +31,7 @@ router.post("/password", isLoggedin, userController.password.post);
 
 router.get("/countPosts", isLoggedin, userController.countPosts.get);
 
-router.post("/changeImage", isLoggedin, upload.single("img"), (req, res) => {
+router.post("/changeImage", upload.single("img"), (req, res) => {
   try {
     const payLoad = { url: req.file.location };
     User.update(

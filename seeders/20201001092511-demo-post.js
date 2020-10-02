@@ -15,7 +15,6 @@ module.exports = {
         current_join_user: 1,
         created_at: "2020-10-01 02:37:09",
         updated_at: "2020-10-01 02:37:09",
-        //is_writable: true,
       },
       {
         title: "david",
@@ -29,7 +28,6 @@ module.exports = {
         current_join_user: 2,
         created_at: "2020-10-01 02:47:09",
         updated_at: "2020-10-01 02:47:09",
-        //is_writable: true,
       },
       {
         title: "god",
@@ -43,7 +41,6 @@ module.exports = {
         current_join_user: 3,
         created_at: "2020-10-01 02:57:09",
         updated_at: "2020-10-01 02:57:09",
-        //is_writable: true,
       },
     ]);
   },

@@ -48,6 +48,18 @@ router.get("/phaseWave/:id", postController.phaseWave.get); //?phase=query
 
 router.get("/wave/:id", postController.wave.get);
 
+router.get(
+  "/createCurrentJoinUser/:id",
+  isLoggedin,
+  postController.createCurrentJoinUser.post
+);
+
+router.get(
+  "/removeCurrentJoinUser/:id",
+  isLoggedin,
+  postController.removeCurrentJoinUser.post
+);
+
 router.post("/thumnail", isLoggedin, upload.single("img"), (req, res) => {
   const payLoad = { url: req.file.location };
   Post.update(

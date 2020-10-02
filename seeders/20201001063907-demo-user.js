@@ -1,12 +1,13 @@
 "use strict";
-
+const bcrypt = require("bcrypt");
+const hash = bcrypt.hashSync("password", 12);
 module.exports = {
   up: async queryInterface => {
     return queryInterface.bulkInsert("users", [
       {
         username: "kimtaewon",
         email: "kimtaewon@naver.com",
-        password: "password",
+        password: hash,
         avartar_url: "http://www.naver.com",
         created_at: "2020-10-01 02:37:09",
         updated_at: "2020-10-01 02:37:09",
@@ -14,7 +15,7 @@ module.exports = {
       {
         username: "kimdoum",
         email: "kimdoum@google.com",
-        password: "password",
+        password: hash,
         avartar_url: "http://www.google.com",
         created_at: "2020-10-01 02:47:09",
         updated_at: "2020-10-01 02:47:09",
@@ -22,7 +23,7 @@ module.exports = {
       {
         username: "kanghankyul",
         email: "kanghankyu@kakao.com",
-        password: "password",
+        password: hash,
         avartar_url: "http://www.kakao.com",
         created_at: "2020-10-01 02:57:09",
         updated_at: "2020-10-01 02:57:09",
@@ -30,7 +31,7 @@ module.exports = {
       {
         username: "leehyukwon",
         email: "leehyukwon@naver.com",
-        password: "password",
+        password: hash,
         avartar_url: "http://www.naver.com",
         created_at: "2020-10-01 03:37:09",
         updated_at: "2020-10-01 03:37:09",
