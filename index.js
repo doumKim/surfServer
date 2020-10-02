@@ -28,7 +28,6 @@ sequelize
   })
   .catch(console.error);
 
-app.set("trust proxy", true);
 // middlewares
 app.use(
   cors({
@@ -45,8 +44,6 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      //sameSite: "none",
-      //secure: true,
     },
   })
 );

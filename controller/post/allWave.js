@@ -8,16 +8,24 @@ module.exports = {
     const category = req.query.category; // 카테고리(전체,액션,로맨스,판타지,스릴러,...)
     const sort = req.query.sort; // 인기,최신 (like, created_at)
     try {
-      Post.findAll({
-        where: {
-          categories: {
-            [Op.like]: "%" + category + "%",
+      if (category) {
+        Post.findAll({
+          where: {
+            categories: {
+              [Op.like]: "%" + category + "%",
+            },
           },
-        },
-        order: [[sort, "DESC"]],
-      }).then(allWave => {
-        res.status(200).send(allWave);
-      });
+          order: [[sort, "DESC"]],
+        }).then(allWave => {
+          res.status(200).send(allWave);
+        });
+      } else {
+        Post.findAll({
+          order: [[sort, "DESC"]],
+        }).then(allWave => {
+          res.status(200).send(allWave);
+        });
+      }
     } catch (err) {
       res.status(500).send("Internal Server Error");
     }

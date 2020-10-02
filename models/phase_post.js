@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     "PhasePost",
     {
       text: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(6000),
         allowNull: false,
       },
       sub_title: {

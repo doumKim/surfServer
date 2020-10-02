@@ -10,15 +10,17 @@ module.exports = {
         },
       });
 
-      const likeWaveList = likePost.filter(async post => {
-        const posts = await Post.findOne({
-          where: {
-            id: post.dataValues.post_id,
-          },
-        });
-        return posts;
-      });
+      const likeWaveList = await Promise.all(
+        likePost.map(async post => {
+          const posts = await Post.findOne({
+            where: {
+              id: post.dataValues.post_id,
+            },
+          });
 
+          return posts.dataValues;
+        })
+      );
       res.status(200).json(likeWaveList);
     } catch (err) {
       console.error(err);
