@@ -7,9 +7,7 @@ module.exports = {
       const user = await User.findOne({
         where: { id: userId },
       });
-
       const likeWaveList = await user.getPosts();
-
       res.status(200).json(likeWaveList);
     } catch (err) {
       console.error(err);
