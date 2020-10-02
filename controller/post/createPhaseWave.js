@@ -8,7 +8,7 @@ module.exports = {
       PhasePost.create({
         text: text,
         sub_title: sub_title,
-        current_phase: currentPhase + 1,
+        current_phase: Number(currentPhase) + 1,
         post_id: req.params.id,
         user_id: req.session.passport.user,
       }).then(() => {

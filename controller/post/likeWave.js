@@ -11,7 +11,7 @@ module.exports = {
       });
 
       const likeWaveList = await Promise.all(
-        likePost.map(async post => {
+        likePosts.map(async post => {
           const posts = await Post.findOne({
             where: {
               id: post.dataValues.post_id,
