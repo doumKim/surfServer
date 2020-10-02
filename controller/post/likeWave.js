@@ -1,16 +1,16 @@
-const { user_post, Post } = require("../../models");
+const { LikePost, Post } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
     try {
-      const likePost = await user_post.findAll({
+      const likePosts = await LikePost.findAll({
         order: [["created_at", "DESC"]],
         where: {
           user_id: req.session.passport.user,
         },
       });
 
-      const likeWaveList = likePost.filter(async post => {
+      const likeWaveList = likePosts.filter(async post => {
         const posts = await Post.findOne({
           where: {
             id: post.dataValues.post_id,
