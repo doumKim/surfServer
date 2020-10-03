@@ -1,4 +1,4 @@
-const { Post, PhasePost } = require("../../models");
+const { PhasePost } = require("../../models");
 module.exports = {
   get: async (req, res) => {
     try {

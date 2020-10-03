@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { Post } = require("../models");
 const { isLoggedin } = require("./middlewares/auth");
 const path = require("path");
 const AWS = require("aws-sdk");

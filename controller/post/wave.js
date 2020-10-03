@@ -1,4 +1,4 @@
-const { Post, sequelize, PhasePost } = require("../../models");
+const { Post, PhasePost } = require("../../models");
 const { mapToPostLikeValue } = require("./helper");
 module.exports = {
   get: async (req, res) => {
