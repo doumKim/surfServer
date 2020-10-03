@@ -11,21 +11,17 @@ module.exports = {
           create_user: user,
         },
       });
-
       const countJoinWave = await PhasePost.count({
         where: {
           user_id: user,
         },
       });
-
       const countLikeWave = await getLengthOfLikeList(User, user);
-
       const countPosts = {
         countCreateWave,
         countJoinWave,
         countLikeWave,
       };
-
       res.status(200).json(countPosts);
     } catch (err) {
       console.error(err);

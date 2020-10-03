@@ -1,8 +1,8 @@
-const { LikePost, User, Post } = require("../../models");
+const { User, Post } = require("../../models");
+
 module.exports = {
   //가능하면 include 사용하면 기능상으로 좋다.
   post: async (req, res) => {
-    const sess = req.session;
     const postId = req.params.id;
     try {
       //현재 보고있는 post

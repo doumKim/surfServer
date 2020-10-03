@@ -2,7 +2,6 @@
 const { Post, User } = require("../../models");
 const sequelize = require("sequelize");
 const { mapToPostsLikeValue } = require("../helper");
-const post = require("../../models/post");
 const Op = sequelize.Op;
 
 module.exports = {
