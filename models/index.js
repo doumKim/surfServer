@@ -1,46 +1,49 @@
-"use strict";
-
-const fs = require("fs");
-const path = require("path");
 const Sequelize = require("sequelize");
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.js")[env];
+const config = require("../config/config")[env];
 const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
-
-fs.readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  config
+);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.User = require("./user")(sequelize, Sequelize);
+db.Post = require("./post")(sequelize, Sequelize);
+db.PhasePost = require("./phase_post")(sequelize, Sequelize);
+
+db.User.hasMany(db.PhasePost, { foreignKey: "user_id", sourceKey: "id" });
+db.PhasePost.belongsTo(db.PhasePost, {
+  foreignKey: "user_id",
+  targetKey: "id",
+});
+
+db.Post.hasMany(db.PhasePost, {
+  foreignKey: "post_id",
+  sourceKey: "id",
+  as: "phase_waves",
+});
+db.PhasePost.belongsTo(db.Post, {
+  foreignKey: "post_id",
+  targetKey: "id",
+  as: "wave",
+});
+
+db.User.hasMany(db.Post, { foreignKey: "create_user", sourceKey: "id" });
+db.Post.belongsTo(db.User, { foreignKey: "create_user", targetKey: "id" });
+
+db.User.hasMany(db.Post, { foreignKey: "current_join_user", sourceKey: "id" });
+db.Post.belongsTo(db.User, {
+  foreignKey: "current_join_user",
+  targetKey: "id",
+});
+
+db.User.belongsToMany(db.Post, { through: "like_posts", timestamps: false });
+db.Post.belongsToMany(db.User, { through: "like_posts", timestamps: false });
 
 module.exports = db;

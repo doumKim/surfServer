@@ -38,13 +38,5 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  User.associate = models => {
-    User.belongsToMany(models.Post, {
-      through: "like_posts",
-      foreignKey: "user_id",
-      onDelete: "cascade",
-    });
-  };
-
   return User;
 };

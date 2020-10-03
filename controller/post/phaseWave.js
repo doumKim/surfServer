@@ -1,16 +1,17 @@
-const { PhasePost } = require("../../models");
+const { Post, PhasePost } = require("../../models");
 module.exports = {
-  get: (req, res) => {
+  get: async (req, res) => {
     try {
-      PhasePost.findOne({
-        where: {
-          post_id: req.params.id, //게시물 id
-          current_phase: req.query.phase, //현재회차
+      const phasePosts = await Post.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: PhasePost,
+          as: "phase_waves",
         },
-      }).then(result => {
-        res.status(200).json(result);
       });
+      res.status(200).send(phasePosts);
     } catch (err) {
+      console.error(err);
       res.status(400).send("Invalid Access to phasePost data");
     }
   },

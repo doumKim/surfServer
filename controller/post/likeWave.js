@@ -1,29 +1,16 @@
-const { LikePost, Post } = require("../../models");
+const { User } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
     try {
-      const likePosts = await LikePost.findAll({
-        order: [["created_at", "DESC"]],
-        where: {
-          user_id: req.session.passport.user,
-        },
+      const userId = req.session.passport.user;
+      const user = await User.findOne({
+        where: { id: userId },
       });
-
-      const likeWaveList = await Promise.all(
-        likePosts.map(async post => {
-          const posts = await Post.findOne({
-            where: {
-              id: post.dataValues.post_id,
-            },
-          });
-
-          return posts.dataValues;
-        })
-      );
+      const likeWaveList = await user.getPosts();
       res.status(200).json(likeWaveList);
     } catch (err) {
-      res.status(401).send("Bad Request");
+      console.error(err);
     }
   },
 };

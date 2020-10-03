@@ -19,18 +19,5 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  PhasePost.associate = models => {
-    PhasePost.belongsTo(models.User, {
-      foreignKey: "user_id",
-      allowNull: false,
-      onDelete: "cascade",
-    });
-    PhasePost.belongsTo(models.Post, {
-      foreignKey: "post_id",
-      allowNull: false,
-      onDelete: "cascade",
-    });
-  };
-
   return PhasePost;
 };

@@ -37,23 +37,5 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  Post.associate = models => {
-    Post.belongsTo(models.User, {
-      foreignKey: "create_user",
-      allowNull: false,
-      onDelete: "cascade",
-    });
-    Post.belongsTo(models.User, {
-      foreignKey: "current_join_user",
-      allowNull: true,
-      onDelete: "cascade",
-    });
-    Post.belongsToMany(models.User, {
-      through: "like_posts",
-      foreignKey: "post_id",
-      onDelete: "cascade",
-    });
-  };
-
   return Post;
 };
