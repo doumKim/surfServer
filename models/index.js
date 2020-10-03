@@ -48,6 +48,7 @@ db.Post.belongsTo(db.User, {
   targetKey: "id",
   as: "join_creator_info",
 });
+
 db.User.belongsToMany(db.Post, {
   through: "like_posts",
   timestamps: false,
@@ -58,4 +59,5 @@ db.Post.belongsToMany(db.User, {
   timestamps: false,
   as: "Likers",
 });
+
 module.exports = db;

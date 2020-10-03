@@ -14,7 +14,6 @@ module.exports = {
           user_id: req.session.passport.user,
         },
       });
-
       const joinWaveList = list.filter(async joinWave => {
         const posts = await Post.findOne({
           where: {

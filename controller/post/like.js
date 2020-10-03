@@ -25,7 +25,6 @@ module.exports = {
       });
       //post의 like 1증가
       await user.addLikedWaves(postId);
-
       await Post.update(
         {
           like: Number(post.like) + 1,
@@ -36,7 +35,6 @@ module.exports = {
           },
         }
       );
-
       //post를 쓴 user의 exp 1증가
       await User.update(
         {
@@ -48,7 +46,6 @@ module.exports = {
           },
         }
       );
-
       // exp변경에 따른 level변경 체크
       if (Number(userPost.exp) >= Number(userPost.level) * 100) {
         await User.update(
@@ -62,7 +59,6 @@ module.exports = {
           }
         );
       }
-
       res.status(200).send("update success");
     } catch (err) {
       console.error(err);
