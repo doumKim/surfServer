@@ -15,17 +15,11 @@ module.exports = {
     if (reqUserId) {
       for (let i = 0; i < posts.length; i++) {
         const likers = await posts[i].getLikers();
-        posts[i].dataValues.like_count = likers.length;
         for (let j = 0; j < likers.length; j++) {
           if (likers[j].id === reqUserId.user) {
             posts[i].dataValues.liked = true;
           }
         }
-      }
-    } else {
-      for (let i = 0; i < posts.length; i++) {
-        const likers = await posts[i].getLikers();
-        posts[i].dataValues.like_count = likers.length;
       }
     }
   },

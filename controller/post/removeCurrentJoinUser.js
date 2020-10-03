@@ -1,5 +1,4 @@
 const { Post } = require("../../models");
-
 module.exports = {
   post: async (req, res) => {
     try {
@@ -9,7 +8,7 @@ module.exports = {
         },
         {
           where: {
-            id: req.query.id,
+            id: req.params.id,
           },
         }
       );

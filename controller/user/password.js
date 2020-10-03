@@ -22,7 +22,9 @@ module.exports = {
               },
             }
           );
-          res.status(200).send("Sucessfuly changed");
+          req.logout();
+          req.session.destroy();
+          res.status(302).redirect(process.env.SIGNOUT_REDIRECT__URL);
         }
       }
     } catch (err) {

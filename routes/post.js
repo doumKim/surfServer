@@ -6,11 +6,8 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 require("dotenv").config();
-
 const { postController } = require("../controller");
-
 const s3 = new AWS.S3();
-
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -24,46 +21,38 @@ const upload = multer({
   }),
   //limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
 });
-
 router.get("/allWave", postController.allWave.get);
-
 router.post("/like/:id", isLoggedin, postController.like.post);
-
 router.post(
   "/createPhaseWave/:id",
   isLoggedin,
   postController.createPhaseWave.post
 );
-
-router.post("/createWave", isLoggedin, postController.createWave.post);
-
+router.post(
+  "/createWave",
+  isLoggedin,
+  upload.single("title_image"),
+  postController.createWave.post
+);
 router.get("/joinWaveList", isLoggedin, postController.joinWaveList.get);
-
 router.get("/likeWave", isLoggedin, postController.likeWave.get);
-
 router.get("/myWaveList", isLoggedin, postController.myWaveList.get); //1
-
 router.get("/phaseWave/:id", postController.phaseWave.get); //?phase=query
-
 router.get("/wave/:id", postController.wave.get);
-
 router.get(
   "/createCurrentJoinUser/:id",
   isLoggedin,
   postController.createCurrentJoinUser.post
 );
-
 router.get(
   "/removeCurrentJoinUser/:id",
   isLoggedin,
   postController.removeCurrentJoinUser.post
 );
-
 router.post(
   "/thumbnail",
   isLoggedin,
   upload.single("img"),
   postController.thumbnail.post
 );
-
 module.exports = router;

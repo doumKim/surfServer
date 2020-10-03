@@ -7,11 +7,8 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 require("dotenv").config();
-
 const { userController } = require("../controller");
-
 const s3 = new AWS.S3();
-
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -24,14 +21,10 @@ const upload = multer({
     },
   }),
 });
-
 router.get("/userInfo", isLoggedin, userController.userInfo.get);
-
 router.post("/password", isLoggedin, userController.password.post);
-
 router.get("/countPosts", isLoggedin, userController.countPosts.get);
-
-router.post("/changeImage", upload.single("img"), (req, res) => {
+router.post("/changeImage", upload.single("avatar"), (req, res) => {
   try {
     const payLoad = { url: req.file.location };
     User.update(
@@ -51,5 +44,4 @@ router.post("/changeImage", upload.single("img"), (req, res) => {
     res.status(500).send("서버 에러");
   }
 });
-
 module.exports = router;
