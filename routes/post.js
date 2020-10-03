@@ -60,20 +60,11 @@ router.get(
   postController.removeCurrentJoinUser.post
 );
 
-router.post("/thumnail", isLoggedin, upload.single("img"), (req, res) => {
-  const payLoad = { url: req.file.location };
-  Post.update(
-    {
-      title_image: payLoad,
-    },
-    {
-      where: {
-        create_user: req.session.passport.user,
-      },
-    }
-  ).then(() => {
-    res.status(200).send(payLoad);
-  });
-});
+router.post(
+  "/thumbnail",
+  isLoggedin,
+  upload.single("img"),
+  postController.thumbnail.post
+);
 
 module.exports = router;
