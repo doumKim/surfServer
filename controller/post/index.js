@@ -10,4 +10,5 @@ module.exports = {
   like: require("./like"),
   createCurrentJoinUser: require("./createCurrentJoinUser"),
   removeCurrentJoinUser: require("./removeCurrentJoinUser"),
+  thumbnail: require("./thumbnail"),
 };

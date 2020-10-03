@@ -6,11 +6,10 @@ module.exports = {
     try {
       const count = req.query.count;
       const sort = req.query.sort; // create_at, like (recent,hot)
-
       const myWaveList = await Post.findAll({
         offset: 0,
         limit: Number(count) || 100,
-        order: [[sort, "ASC"]],
+        order: [[sort, "DESC"]],
         where: {
           create_user: req.session.passport.user,
         },

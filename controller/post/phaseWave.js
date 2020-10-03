@@ -1,13 +1,9 @@
-const { Post, PhasePost } = require("../../models");
+const { PhasePost } = require("../../models");
 module.exports = {
   get: async (req, res) => {
     try {
-      const phasePosts = await Post.findOne({
-        where: { id: req.params.id },
-        include: {
-          model: PhasePost,
-          as: "phase_waves",
-        },
+      const phasePosts = await PhasePost.findOne({
+        where: { post_id: req.params.id, current_phase: req.query.phase },
       });
       res.status(200).send(phasePosts);
     } catch (err) {

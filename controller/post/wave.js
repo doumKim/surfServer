@@ -1,4 +1,4 @@
-const { Post, sequelize, PhasePost } = require("../../models");
+const { Post, PhasePost } = require("../../models");
 const { mapToPostLikeValue } = require("./helper");
 module.exports = {
   get: async (req, res) => {
@@ -19,16 +19,6 @@ module.exports = {
         await mapToPostLikeValue(post, authUser);
       }
 
-      await Post.update(
-        {
-          visits: sequelize.literal("visits + 1"),
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
       res.status(200).json(post);
     } catch (err) {
       console.error(err);
