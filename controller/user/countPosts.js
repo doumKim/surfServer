@@ -1,4 +1,5 @@
-const { Post, LikePost, PhasePost } = require("../../models");
+const { Post, PhasePost, User } = require("../../models");
+const { getLengthOfLikeList } = require("../helper");
 
 module.exports = {
   get: async (req, res) => {
@@ -17,11 +18,7 @@ module.exports = {
         },
       });
 
-      const countLikeWave = await LikePost.count({
-        where: {
-          user_id: user,
-        },
-      });
+      const countLikeWave = await getLengthOfLikeList(User, user);
 
       const countPosts = {
         countCreateWave,

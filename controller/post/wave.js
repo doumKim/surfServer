@@ -1,5 +1,5 @@
 const { Post, sequelize, PhasePost } = require("../../models");
-const { mapToPostLikeValue } = require("./helper");
+const { mapToPostLikeValue } = require("../helper");
 module.exports = {
   get: async (req, res) => {
     try {
@@ -12,7 +12,6 @@ module.exports = {
           as: "phase_waves",
         },
       });
-      // console.log(post)
 
       if (req.session.passport) {
         const authUser = req.session.passport.user;

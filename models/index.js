@@ -34,16 +34,37 @@ db.PhasePost.belongsTo(db.Post, {
   as: "wave",
 });
 
-db.User.hasMany(db.Post, { foreignKey: "create_user", sourceKey: "id" });
-db.Post.belongsTo(db.User, { foreignKey: "create_user", targetKey: "id" });
+db.User.hasMany(db.Post, {
+  foreignKey: "create_user",
+  sourceKey: "id",
+  as: "write_wave_list",
+});
+db.Post.belongsTo(db.User, {
+  foreignKey: "create_user",
+  targetKey: "id",
+  as: "creator_info",
+});
 
-db.User.hasMany(db.Post, { foreignKey: "current_join_user", sourceKey: "id" });
+db.User.hasMany(db.Post, {
+  foreignKey: "current_join_user",
+  sourceKey: "id",
+  as: "join_write_wave_list",
+});
 db.Post.belongsTo(db.User, {
   foreignKey: "current_join_user",
   targetKey: "id",
+  as: "join_creator_info",
 });
 
-db.User.belongsToMany(db.Post, { through: "like_posts", timestamps: false });
-db.Post.belongsToMany(db.User, { through: "like_posts", timestamps: false });
+db.User.belongsToMany(db.Post, {
+  through: "like_posts",
+  timestamps: false,
+  as: "LikedWaves",
+});
+db.Post.belongsToMany(db.User, {
+  through: "like_posts",
+  timestamps: false,
+  as: "Likers",
+});
 
 module.exports = db;

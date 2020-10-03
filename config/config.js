@@ -1,9 +1,9 @@
 require("dotenv").config();
 module.exports = {
   development: {
-    username: "root", //process.env.MYSQL_LOCAL_USERNAME,
-    password: "123", //process.env.MYSQL_LOCAL_PASSWORD,
-    database: "surf", //process.env.MYSQL_LOCAL_DATABASE,
+    username: process.env.MYSQL_LOCAL_USERNAME,
+    password: process.env.MYSQL_LOCAL_PASSWORD,
+    database: process.env.MYSQL_LOCAL_DATABASE,
     host: process.env.MYSQL_LOCAL_HOST,
     port: process.env.MYSQL_LOCAL_PORT,
     dialect: "mysql",

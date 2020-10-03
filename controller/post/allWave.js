@@ -1,32 +1,50 @@
 //catgory가 전체일때, 전체가 아닐때로 나눠서 작성
-const { Post } = require("../../models");
+const { Post, User } = require("../../models");
 const sequelize = require("sequelize");
+const { mapToPostsLikeValue } = require("../helper");
+const post = require("../../models/post");
 const Op = sequelize.Op;
 
 module.exports = {
-  get: (req, res) => {
-    const category = req.query.category; // 카테고리(전체,액션,로맨스,판타지,스릴러,...)
-    const sort = req.query.sort; // 인기,최신 (like, created_at)
+  get: async (req, res) => {
     try {
+      const category = req.query.category; // 카테고리(전체,액션,로맨스,판타지,스릴러,...)
+      const sort = req.query.sort; // 인기,최신 (like, created_at)
+      const passport = req.session.passport;
       if (category) {
-        Post.findAll({
+        const posts = await Post.findAll({
           where: {
             categories: {
               [Op.like]: "%" + category + "%",
             },
           },
           order: [[sort, "DESC"]],
-        }).then(allWave => {
-          res.status(200).send(allWave);
+          include: {
+            model: User,
+            as: "creator_info",
+            attributes: ["avartar_url", "username"],
+          },
         });
+
+        await mapToPostsLikeValue(posts, passport);
+        res.status(200).send(posts);
       } else {
-        Post.findAll({
+        const posts = await Post.findAll({
           order: [[sort, "DESC"]],
-        }).then(allWave => {
-          res.status(200).send(allWave);
+          include: [
+            {
+              model: User,
+              as: "creator_info",
+              attributes: ["avartar_url", "username"],
+            },
+          ],
         });
+
+        await mapToPostsLikeValue(posts, passport);
+        res.status(200).send(posts);
       }
     } catch (err) {
+      console.error(err);
       res.status(500).send("Internal Server Error");
     }
   },

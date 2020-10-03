@@ -1,5 +1,4 @@
 const { User } = require("../../models");
-
 module.exports = {
   get: async (req, res) => {
     try {
@@ -7,7 +6,7 @@ module.exports = {
       const user = await User.findOne({
         where: { id: userId },
       });
-      const likeWaveList = await user.getPosts();
+      const likeWaveList = await user.getLikedWaves();
       res.status(200).json(likeWaveList);
     } catch (err) {
       console.error(err);
