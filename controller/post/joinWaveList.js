@@ -1,3 +1,5 @@
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const { PhasePost, Post, User } = require("../../models");
 module.exports = {
   //파도이어가기목록(내가 참여한 글 목록)
@@ -5,6 +7,15 @@ module.exports = {
     try {
       const count = req.query.count;
       const userId = req.session.passport.user;
+
+      const userName = await User.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      console.log(userName.dataValues.username);
+
       const joinWaveList = await PhasePost.findAll({
         offset: 0,
         limit: Number(count) || 100,
@@ -17,28 +28,21 @@ module.exports = {
           {
             model: Post,
             as: "wave",
+            where: {
+              create_user: {
+                [Op.notLike]: userId,
+              },
+            },
             include: [
               {
                 model: User,
                 as: "creator_info",
                 attributes: ["avartar_url", "username"],
               },
-              {
-                model: User,
-                as: "Likers",
-                attributes: ["id"],
-                where: { id: userId },
-              },
             ],
           },
         ],
       });
-
-      for (let i = 0; i < joinWaveList.length; i++) {
-        if (joinWaveList[i].wave.dataValues.Likers[0]) {
-          joinWaveList[i].wave.dataValues.liked = true;
-        }
-      }
 
       res.status(200).json(joinWaveList);
     } catch (err) {
