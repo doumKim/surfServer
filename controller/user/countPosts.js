@@ -1,3 +1,5 @@
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const { Post, PhasePost, User } = require("../../models");
 const { getLengthOfLikeList } = require("../helper");
 
@@ -15,6 +17,17 @@ module.exports = {
         where: {
           user_id: user,
         },
+        include: [
+          {
+            model: Post,
+            as: "wave",
+            where: {
+              create_user: {
+                [Op.notLike]: user,
+              },
+            },
+          },
+        ],
       });
       const countLikeWave = await getLengthOfLikeList(User, user);
       const countPosts = {
