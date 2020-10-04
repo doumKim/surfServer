@@ -7,15 +7,6 @@ module.exports = {
     try {
       const count = req.query.count;
       const userId = req.session.passport.user;
-
-      const userName = await User.findOne({
-        where: {
-          id: userId,
-        },
-      });
-
-      console.log(userName.dataValues.username);
-
       const joinWaveList = await PhasePost.findAll({
         offset: 0,
         limit: Number(count) || 100,
