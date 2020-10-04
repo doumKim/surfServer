@@ -20,7 +20,7 @@ module.exports = {
         post_id: post.id,
         user_id: req.session.passport.user,
       });
-      res.status(201).send("Successfully created");
+      res.status(201).send({ id: post.id });
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");

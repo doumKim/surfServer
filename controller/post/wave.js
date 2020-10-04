@@ -1,4 +1,4 @@
-const { Post, PhasePost } = require("../../models");
+const { Post, User, PhasePost } = require("../../models");
 const { mapToPostLikeValue } = require("../helper");
 module.exports = {
   get: async (req, res) => {
@@ -7,10 +7,17 @@ module.exports = {
         where: {
           id: req.params.id,
         },
-        include: {
-          model: PhasePost,
-          as: "phase_waves",
-        },
+        include: [
+          {
+            model: PhasePost,
+            as: "phase_waves",
+          },
+          {
+            model: User,
+            as: "creator_info",
+            attributes: ["username"],
+          },
+        ],
       });
 
       if (req.session.passport) {
