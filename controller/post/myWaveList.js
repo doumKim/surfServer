@@ -1,4 +1,4 @@
-const { Post } = require("../../models");
+const { Post, User } = require("../../models");
 const { mapToPostsLikeValue } = require("../helper");
 module.exports = {
   //내가 일으킨 파도 목록(내가 작성한 글 목록)
@@ -13,6 +13,11 @@ module.exports = {
         order: [[sort, "DESC"]],
         where: {
           create_user: req.session.passport.user,
+        },
+        include: {
+          model: User,
+          as: "creator_info",
+          attributes: ["avartar_url", "username"],
         },
       });
 
